@@ -116,11 +116,11 @@ bot.on("interactionCreate",async i => {
     if(n != 0){
     if(n <= 900000000000){
       if(calcrest(n) > 0) a.push(`${n}`)
-    if(n*10 <= 900000000000){ if(calcrest(n*100) > 0) a.push(`${n}00`) }
-    if(n*100 <= 900000000000){ if(calcrest(n*10) > 0) a.push(`${n}000`) }
-    if(n*1000 <= 900000000000){ if(calcrest(n*1000) > 0) a.push(`${n}0000`) }
-    if(n*10000 <= 900000000000){ if(calcrest(n*10000) > 0) a.push(`${n}00000`) }
-    if(n*100000 <= 900000000000){ if(calcrest(n*100000) > 0) a.push(`${n}000000`) }
+    if(n*10 <= 900000000000){ if(calcrest(n*10) > 0) a.push(`${n}0`) }
+    if(n*100 <= 900000000000){ if(calcrest(n*100) > 0) a.push(`${n}00`) }
+    if(n*1000 <= 900000000000){ if(calcrest(n*1000) > 0) a.push(`${n}000`) }
+    if(n*10000 <= 900000000000){ if(calcrest(n*10000) > 0) a.push(`${n}0000`) }
+    if(n*100000 <= 900000000000){ if(calcrest(n*100000) > 0) a.push(`${n}00000`) }
     }else{
       a.push("900000000000")
     }
