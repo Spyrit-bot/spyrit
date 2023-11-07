@@ -93,9 +93,44 @@ let devs = ["1046844921530818630"]
 //cmds
 bot.on("interactionCreate",async i => {
   if(i.isAutocomplete()){
-    let cmd = cmdget.get(i.commandName)
-    await cmd.ac(bot,db,i)
+    let cmdn = (i.commandName)
+    let iswith = cmdn === "bank" && i.options.getSubcommand() === "with"
+    let n = process.formatarkbm(i.options.getFocused())
+    let userModel = db.model("user")
+      let user = await userModel.findOneAndUpdate({ _id: i.user.id },{},{ upsert: true })
+      if(!user) return i.respond([]).catch(()=>{})
+    let bal = +Number(user.economy.bal).toFixed(2)
+    if(iswith) bal=+Number(user.economy.bank).toFixed(2)
+    if(n.toLowerCase().startsWith("a")){
+      return i.respond([
+        { name: `All - ${process.formatar(user.economy.bal)}`,value:`${user.economy.bal}`}
+        ]).catch(()=>{})
+    }
+    n=Number(n)
+    if(isNaN(n)) return i.respond([]).catch(()=>{})
+    function calcrest(a){
+      return bal-a
+    }
+    let a = []
     
+    if(n != 0){
+    if(n <= 900000000000){
+      if(calcrest(n) > 0) a.push(`${n}`)
+    if(n*10 <= 900000000000){ if(calcrest(n*100) > 0) a.push(`${n}00`) }
+    if(n*100 <= 900000000000){ if(calcrest(n*10) > 0) a.push(`${n}000`) }
+    if(n*1000 <= 900000000000){ if(calcrest(n*1000) > 0) a.push(`${n}0000`) }
+    if(n*10000 <= 900000000000){ if(calcrest(n*10000) > 0) a.push(`${n}00000`) }
+    if(n*100000 <= 900000000000){ if(calcrest(n*100000) > 0) a.push(`${n}000000`) }
+    }else{
+      a.push("900000000000")
+    }
+    }
+    a.push(`${bal}`)
+    return i.respond(a.map(b=>{
+      if(Number(b) === bal) return { name: `Tudo - ${process.formatar(+b)}`,value:b }
+      return { name: `${process.formatar(+b)} - Sobra ${process.formatar(calcrest(+b))}`,value:b }
+    })).catch(()=>{})
+  
   }
   else if(i.isCommand()){
     if(!i.guild) return
@@ -359,7 +394,7 @@ process.formatar = function formatarMoeda(valor,ssc) {
   const formatoMoeda = new Intl.NumberFormat('pt-BR');
   return `${formatoMoeda.format(Number(Number(valor).toFixed(2)))}${ssc ? "" : " SpyCoins"}`;
 }
-
+process.formatarkbm = (v) => v.toLowerCase().replace(/k/g, '000').replace(/b/g, '000000000').replace(/m/g, '000000');
 function gettime(){
   let t = Date.now()
   
