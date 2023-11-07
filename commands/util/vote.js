@@ -14,7 +14,7 @@ export default {
  
  let votou = await process.simo.votou(i.user.id)
  let user = await userModel.findOneAndUpdate({ _id: i.user.id },{}, { upsert: true })
- if(votou && user.vote.voted){
+ if(votou && !user.vote.voted){
    user.economy.bal += 1200;
    user.vote.voted = true
    let trans = new transModel({
