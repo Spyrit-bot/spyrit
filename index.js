@@ -92,7 +92,12 @@ let timeout = {}
 let devs = ["1046844921530818630"]
 //cmds
 bot.on("interactionCreate",async i => {
-  if(i.isCommand()){
+  if(i.isAutocomplete()){
+    let cmd = cmdget.get(i.commandName)
+    await cmd.ac(bot,db,i)
+    
+  }
+  else if(i.isCommand()){
     if(!i.guild) return
     await process.simo.votou(i.user.id)
     let time = cachedvotes[`${gettime()}${i.user.id}`] ? 2100 : 3000
@@ -145,7 +150,7 @@ bot.on("interactionCreate",async i => {
     }).catch(()=>{})
     },1000)
   }
-  if(i.isButton()){
+  else if(i.isButton()){
     if(i.customId === "deleteval" && devs.includes(i.user.id)){
       i.message.delete().catch(()=>{})
       }

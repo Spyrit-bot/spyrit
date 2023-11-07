@@ -16,7 +16,7 @@ export default {
   })
   .addSubcommand(cmd=>cmd.setName("bet").setDescription("Aposta no cara ou coroa")
   .addUserOption(k=>k.setName("usuario").setDescription("Escolha um usuário para apostar com você").setRequired(true))
-  .addStringOption(k=>k.setName("valor").setDescription("Valor / Número ou 'all'").setRequired(true))
+  .addStringOption(k=>k.setName("valor").setDescription("Valor").setRequired(true).setAutocomplete(true))
   )
   .addSubcommand(cmd=>cmd.setName("status").setDescription(`Veja os status`))
   .setDescription(`cara-ou-coroa comandoa`),
@@ -216,5 +216,38 @@ collector.on("collect",e=>{
       coroas:{type:Number,default:0},
       */
       }
+  },
+  ac: async(bot,db,i)=>{
+    let n = i.options.getFocused()
+    let userModel = db.model("user")
+      let user = await userModel.findOneAndUpdate({ _id: i.user.id },{},{ upsert: true })
+      if(!user) return i.respond([]).catch(()=>{})
+    let bal = +Number(user.economy.bal).toFixed(2)
+    if(n.toLowerCase().startsWith("a")){
+      return i.respond([
+        { name: `All - ${process.formatar(user.economy.bal)}`,value:`${user.economy.bal}`}
+        ]).catch(()=>{})
+    }
+    n=Number(n)
+    if(isNaN(n)) return i.respond([]).catch(()=>{})
+    function calcrest(a){
+      return bal-a
+    }
+    let a = []
+    if(n != 0){
+    if(n <= 900000000){
+      if(calcrest(n) > 0) a.push(`${n}`)
+    if(calcrest(n*10) > 0) a.push(`${n}0`)
+    if(calcrest(n*100) > 0) a.push(`${n}00`)
+    if(calcrest(n*1000) > 0) a.push(`${n}000`)
+    if(calcrest(n*10000) > 0) a.push(`${n}0000`)
+    if(calcrest(n*100000) > 0) a.push(`${n}00000`)
+    }
+    a.push(`${bal}`)
+    }
+    return i.respond(a.map(b=>{
+      if(Number(b) === bal) return { name: `Tudo - ${process.formatar(+b)}`,value:b }
+      return { name: `${process.formatar(+b)} - Sobra ${process.formatar(calcrest(+b))}`,value:b }
+    })).catch(()=>{})
   }
 }
