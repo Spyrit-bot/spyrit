@@ -33,6 +33,9 @@ export default mongoose.Schema({
       
     }
   },
+  vote:{
+    voted: {type: Boolean, default: false}
+  },
   bot:{
     blocklist:{
       ative:{type:Boolean,default:false},

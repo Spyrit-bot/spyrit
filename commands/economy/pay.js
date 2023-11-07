@@ -74,7 +74,8 @@ if(!user2) return i.editReply({ content:`Peça para ${user} usar qualquer comand
         user2: i.user.id,
         timestamp: Date.now()
       })
-      
+      let lc = bot.channels.cache.get(process.env.logs);if(lc){lc.send(`${user.globalName || user.username}(${user.tag}/${user.id}) ganhou ${process.formatar(val)}(Com taxas: ${process.formatar(val*(1-tax))}) do ${i.user.globalName || i.user.username}(${i.user.tag}/${i.user.id}) por uma transferência.`).catch(()=>{}) }
+   
       
       
       

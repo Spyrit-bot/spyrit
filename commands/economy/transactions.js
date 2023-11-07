@@ -9,7 +9,9 @@ let filterchoices = [
     {name:"Coinflip",value:"3"},
     {name:"Raspadinha",value:"4"},
     {name:"Roubos",value:"5"},
-    {name:"Intervenção Administrativa",value:"6"}
+    {name:"Intervenção Administrativa",value:"6"},
+    {name:"Ganhos por Votar",value:"7"},
+    
     ]
 export default {
   data: new SlashCommandBuilder()
@@ -26,7 +28,9 @@ export default {
     {name:"Coinflip",value:"3"},
     {name:"Raspadinha",value:"4"},
     {name:"Roubos",value:"5"},
-    {name:"Intervenção Administrativa",value:"6"}
+    {name:"Intervenção Administrativa",value:"6"},
+    {name:"Ganhos por Votar",value:"7"},
+    
     
     ))
   .setDescription("Veja as transações"),
@@ -71,7 +75,8 @@ export default {
         if(n.value > 0) return ` 📥 | ${prefix} ${iud ? "você" : user?.tag} ganhou ${process.formatar(n.value)} por uma intervenção administrativa.`
         return ` 📤 | ${prefix} ${iud ? "você" : user?.tag} perdeu ${process.formatar(n.value*-1)} por uma intervenção administrativa.`
       }
-      
+      if(n.type == 7) return ` 📥 | ${prefix} ${iud ? "você" : user?.tag} ganhou ${process.formatar(n.value)} por votar em mim`
+    
       })
       let mf = filterchoices.find(b=>b.value === filter)
     i.editReply({

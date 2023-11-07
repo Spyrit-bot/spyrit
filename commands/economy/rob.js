@@ -48,6 +48,8 @@ export default {
      user2: i.user.id,
      timestamp: Date.now()
    })
+   let lc = bot.channels.cache.get(process.env.logs);if(lc){lc.send(`${i.user.globalName || i.user.username}(${i.user.tag}/${i.user.id}) roubou ${process.formatar(tx)} do ${user.globalName || user.username}(${user.tag}/${user.id}).`).catch(()=>{}) }
+   
    await trans1.save()
    await trans2.save()
    await usr1.save()

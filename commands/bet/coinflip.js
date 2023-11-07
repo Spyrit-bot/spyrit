@@ -112,6 +112,8 @@ export default {
         user2: i.user.id,
         timestamp: Date.now()
       })
+      let lc = bot.channels.cache.get(process.env.logs);if(lc){lc.send(`${i.user.globalName || i.user.username}(${i.user.tag}/${i.user.id}) perdeu ${process.formatar(val)} do ${user.globalName || user.username}(${user.tag}/${user.id}) no cara-ou-coroa.`).catch(()=>{}) }
+   
       await tranuser1.save();
       await tranuser2.save();
       
@@ -133,7 +135,8 @@ export default {
       usr1.economy.coinflip.ganhado+=val;
       usr1.economy.coinflip.coroas++
       usr1.economy.coinflip.partidastotais++
-      
+      let lc = bot.channels.cache.get(process.env.logs);if(lc){lc.send(`${i.user.globalName || i.user.username}(${i.user.tag}/${i.user.id}) ganhou ${process.formatar(val)} do ${user.globalName || user.username}(${user.tag}/${user.id}) no cara-ou-coroa.`).catch(()=>{}) }
+   
       let tranuser1 = new TranModel({
         userid: i.user.id,
         type: 3,
