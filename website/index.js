@@ -90,7 +90,7 @@ app.get("/botlist",async(req,res)=>{
   res.redirect("https://bombadeagua.life/bot/1166885109471907840")
 })
 app.get("/github",async(req,res)=>{
-  res.redirect("https://github.com/etic-sus/spyrit")
+  res.redirect("https://github.com/Spyrit-bot/spyrit")
 })
 app.get("/discord",async(req,res)=>{
   res.redirect("https://discord.gg/b7ezaDnfFg")
