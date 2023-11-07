@@ -1,7 +1,7 @@
 {
   "name": "spyrit",
-  "version": "1.0.6",
-  "description": "Updates: Novas melhorias e xp, além de nova exibição do comando /transações",
+  "version": "1.0.7",
+  "description": "Conheça Spyrit!",
   "main": "index.js",
   "type": "module",
   "scripts": {
