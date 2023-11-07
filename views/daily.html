@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Daily - Spyrit</title>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Daily - Spyrit">
+  <meta name="twitter:description" content="Conheça Spyrit: Pegue seu daily para ganhar SpyCoins e com eles usar na bot">
+  <meta name="twitter:site" content="https://spyrit.squareweb.app/daily">
+  
 </head>
 <body>
   <div id="app" style="text-align:center;">
@@ -12,7 +17,10 @@
     <h1
     style="font-size:5vh"
     >Daily</h1>
-        <% if(got){ %>
+    <% if(!user){ %>
+    
+           <a href="/api/oauth" style="text-transformation:none;"><button style="width:15vh;height:5vh;border-radius:3px;font-size:2vh">Logar</button></a>
+    <% } else if(got){ %>
         <p style="font-size:3vh">Você já pegou seu daily hoje.</p>
         <% } else { %>
         

@@ -39,7 +39,7 @@ app.get("/api/oauth",async(req,res)=>{
 })
 
 app.get("/daily",async(req,res)=>{
-  if(!req.cookies.token) return res.redirect("/api/oauth");
+  if(!req.cookies.token) return res.render("daily.html",{ user: false, got: false, form: process.formatar })
   oauth.getUser(req.cookies.token).then(async user=>{
     
     let userModel = process.db.model("user",userSchema)
@@ -47,10 +47,10 @@ app.get("/daily",async(req,res)=>{
      
     
     if(usr.economy.daily === process.getdate()) return res.render("daily.html",{got:true,user,form:process.formatar})
-    else return res.render("daily.html",{got:false,user,form:process.formatar})
+    else return res.render("daily.html",{got:false,user,form:process.formatar, user })
   }).catch((err)=>{
    // console.log(err)
-    res.redirect("/api/oauth")
+    res.render("daily.html",{ user: false, got: false, form: process.formatar })
   })
 })
 app.get("/getdaily",async(req,res)=>{
