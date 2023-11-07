@@ -147,7 +147,7 @@ let usersdb = await userModel.find({ sim:true });
     let musr = bot.users.cache.get(u._id)
     let por = ((u.economy.bank/t)*100)
     if(isNaN(por)) por=0
-    return `${n === 1 ? "🥇" : n === 2 ? "🥈" : n === 3 ? "🥉" : `${n}.  `} ${musr?.globalName || musr?.tag} - ${process.formatar(u.economy.bank)} - ${por.toFixed(2)}%`
+    return `${{ 1: "🥇", 2: "🥈", 3: "🥉"}[n] || `${n}.  `} ${musr?.globalName || musr?.tag} - ${process.formatar(u.economy.bank)} - ${por.toFixed(2)}%`
     })
     let embed = new EmbedBuilder()
     .setTitle(`Leaderboard Bank - Página ${page}`)

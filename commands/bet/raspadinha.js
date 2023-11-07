@@ -234,11 +234,11 @@ export default {
     
     function random(){
       let n = Math.floor(Math.random() * 100);
-      if(n < 15) return 1;
-      if(n < 37) return 2;
-      if(n < 49) return 3;
-      if(n < 52) return 4;
-      if(n < 76) return 5;
+      if(n < 13) return 1;
+      if(n < 34) return 2;
+      if(n < 42) return 3;
+      if(n < 50) return 4;
+      if(n < 78) return 5;
       if(n < 80) return 6;
       if(n < 97) return 7;
       return 8
