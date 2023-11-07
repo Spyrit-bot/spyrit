@@ -1,0 +1,29 @@
+{
+  "name": "spyrit",
+  "version": "1.0.6",
+  "description": "Updates: Novas melhorias e xp, além de nova exibição do comando /transações",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ."
+  },
+  "keywords": [
+    "bot",
+    "economia"
+  ],
+  "author": "Guilherme",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "discord-oauth2": "^2.11.0",
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "jimp": "^0.3.5",
+    "mongodb": "^6.2.0",
+    "mongoose": "^7.6.3",
+    "wandbox-api-updated": "^1.0.4"
+  }
+}

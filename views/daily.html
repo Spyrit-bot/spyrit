@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Daily - Spyrit</title>
+</head>
+<body>
+  <div id="app" style="text-align:center;">
+
+    <h1
+    style="font-size:5vh"
+    >Daily</h1>
+        <% if(got){ %>
+        <p style="font-size:3vh">Você já pegou seu daily hoje.</p>
+        <% } else { %>
+        
+        <button style="width:15vh;height:5vh;border-radius:3px;font-size:2vh" id="getdaily">Pegar Daily</button>
+        <p id="earned" style="display: none">Parabéns! Você ganhou R$ 500,00 no daily de hoje! Volte amanhã para mais.</p>
+        <p id=voted style="display: none">Já que você votou em mim hoje na <a href=/botlist>Simo's Botlist</a>, lhe dei mais 20% no seu daily!</p>
+        <p id=notvoted style="display: none">Já que você não votou em mim gratuitamente na <a href=/botlist>Simo's Botlist</a>, você deixou de ganhar 20% a mais em seu daily</p>
+        <p id=votemsg>Obs: se votar em mim na <a href=/botlist>Simo's Botlist</a> antes de pegar o daily, você vai ganhar 20% mais no seu daily!</p>
+        
+        <% } %>
+  </div>
+  <script><%- form.toString() %></script>
+  <script>
+        
+        document.getElementById("getdaily").addEventListener("click", async function teste(){
+          document.getElementById("getdaily").disabled = true
+          document.getElementById("votemsg").style.display = "none"
+          let api = await fetch("/getdaily").catch(alert)
+          let json = await api.json()
+          
+          if(!json.earn) return alert(json.message)
+          else{
+            if(json.voted) document.getElementById("voted").style.display = null
+            else document.getElementById("getdaily").style.display = null
+            document.getElementById("earned").innerText = `Parabéns! Hoje você ganhou ${formatarMoeda(json.value)} no daily. Agora tendo ${formatarMoeda(json.newbal)} no saldo, pode fazer várias coisas como apostar, doar, etc!`
+           document.getElementById("earned").style.display = null
+          }
+        })
+     </script>
+
+</body>
+</html>

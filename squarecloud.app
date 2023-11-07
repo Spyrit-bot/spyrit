@@ -1,0 +1,9 @@
+DISPLAY_NAME=Spyrit
+DESCRIPTION=Bot muito fofa
+MAIN=index.js
+MEMORY=1024
+SUBDOMAIN=spyrit
+START=npm run start
+VERSION=recommended
+AVATAR=https://cdn.discordapp.com/avatars/1166885109471907840/355b7e39159dc817107fc17912195e8a.png?size
+AUTORESTART=true
