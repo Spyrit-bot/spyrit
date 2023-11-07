@@ -243,8 +243,8 @@ collector.on("collect",e=>{
     if(calcrest(n*10000) > 0) a.push(`${n}0000`)
     if(calcrest(n*100000) > 0) a.push(`${n}00000`)
     }
-    a.push(`${bal}`)
     }
+    a.push(`${bal}`)
     return i.respond(a.map(b=>{
       if(Number(b) === bal) return { name: `Tudo - ${process.formatar(+b)}`,value:b }
       return { name: `${process.formatar(+b)} - Sobra ${process.formatar(calcrest(+b))}`,value:b }
