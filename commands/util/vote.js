@@ -4,7 +4,7 @@ export default {
   data: new SlashCommandBuilder()
   .setName("vote")
   .setNameLocalization("pt-BR","votar")
-  .setDescription(`Vote em mim`),
+  .setDescription(`Vote em mim na Simo BotList`),
   run: async(bot,db,i)=>{
     
    await i.deferReply().catch(()=>{})
