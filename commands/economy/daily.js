@@ -24,7 +24,7 @@ await model.save()
    ephemeral:false
  }).catch(()=>{})
  i.reply({
-  content: `Você pode pegar meu daily pelo meu site [aqui](<https://spyrit.squareweb.app/daily?ref=daily-command-slash&guild_id=${i.guild.id}&channel_id=${i.channel.id}>)!`,
+  content: `Você pode pegar seu daily pelo site [aqui](<https://spyrit.squareweb.app/daily?ref=daily-command-slash&guild_id=${i.guild.id}&channel_id=${i.channel.id}>)!`,
   
 }).catch(()=>{})
   },
@@ -38,7 +38,7 @@ await model.save()
    ephemeral:false
  }).catch(()=>{})
  i.reply({
-  content: `Você pode pegar meu daily pelo meu site [aqui](<https://spyrit.squareweb.app/daily?ref=daily-command-slash&guild_id=${i.guild.id}&channel_id=${i.channel.id}>)!`,
+  content: `Você pode pegar seu daily pelo site [aqui](<https://spyrit.squareweb.app/daily?ref=daily-command-slash&guild_id=${i.guild.id}&channel_id=${i.channel.id}>)!`,
   
 }).catch(()=>{})
   },
