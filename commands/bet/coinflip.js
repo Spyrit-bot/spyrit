@@ -52,11 +52,11 @@ export default {
     if(usr2.economy.bal < valor) return i.reply({ content: `${user.tag} não tem esse valor. `}).catch(()=>{})
     
     if(usr1.economy.daily != process.getdate()) return i.reply({
-      content:`Você precisa pegar o /daily para apostar!`
+      content:`Você precisa pegar o daily para apostar!`
     }).catch(()=>{})
     if(!bots.includes(user.id)){
     if(usr2.economy.daily != process.getdate()) return i.reply({
-      content:`${user} precisa pegar o /daily para apostar!`
+      content:`${user} precisa pegar o daily para apostar!`
     }).catch(()=>{})
     }
     let btn = new ButtonBuilder()
