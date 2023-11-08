@@ -15,6 +15,7 @@
   "author": "Guilherme",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "cookie-parser": "^1.4.6",
     "discord-oauth2": "^2.11.0",
     "discord.js": "^14.13.0",

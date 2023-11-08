@@ -75,7 +75,7 @@ export default {
    
  return m.reply({ content: `Você já votou em mim e já pegou seu prêmio hoje! Vote novamente <t:${Math.floor(tempo/1000)}:R>!`}).catch(()=>{})
  } else {
-   user.vote.voted = true
+   user.vote.voted = false
  
     m.reply({
       embeds:[new EmbedBuilder()
