@@ -49,7 +49,7 @@ let usersdb = await userModel.find({ sim:true });
     
     let por = ((u.economy.bal/t)*100)
     if(isNaN(por)) por=0
-    return `${{ 1: "🥇", 2: "🥈", 3: "🥉"}[n] || `${n}.  `} ${musr?.globalName || musr?.tag} - ${process.formatar(u.economy.bal)} - ${por.toFixed(2)}%`
+    return `${{ 1: "🥇", 2: "🥈", 3: "🥉"}[n] || `${n}.  `} [${musr?.globalName || musr?.tag}](https://spyrit.squareweb.app/user/${u.id}) - ${process.formatar(u.economy.bal)} - ${por.toFixed(2)}%`
     })
     let embed = new EmbedBuilder()
     .setTitle(`Leaderboard Cash - Página ${page}`)

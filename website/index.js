@@ -37,7 +37,41 @@ app.get("/api/oauth",async(req,res)=>{
     res.redirect("/api/oauth")
   })
 })
-
+app.get("/user/:userID",async(req,res)=>{
+  let id = req.params.userID;
+  let user = process.bot.users.cache.get(id);
+  if(!user) return res.redirect("/")
+ res.render("user.html",{ id })
+})
+app.get("/api/user/:userID",async(req,res)=>{
+  let id = req.params.userID;
+  let user = process.bot.users.cache.get(id);
+  let userModel = process.db.model("user")
+  if(!user) return res.redirect("/")
+ let userdb = await userModel.findOneAndUpdate({ _id: user.id },{},{ upsert: true })
+ let users = (await userModel.find({ sim: true })).filter(b=>b.economy.bal != Infinity)
+ let rank = -1;
+ users.sort((a,b)=>{
+   return b.economy.bal-a.economy.bal
+ })
+ users.forEach((v,i)=>{
+   if(v.id === user.id) rank=i+1
+ })
+  let db = {
+    globalName: user.globalName,
+    id: user.id,
+    tag: user.tag,
+    bal: userdb.economy.bal,
+    
+    bank: userdb.economy.bank,
+    balFormated: process.formatar(userdb.economy.bal),
+    bankFormated: process.formatar(userdb.economy.bank),
+    
+    rank,
+    avatar: user.displayAvatarURL({ format:"png" })
+  }
+  res.json(db)
+})
 app.get("/daily",async(req,res)=>{
   if(!req.cookies.token) return res.render("daily.html",{ user: false, got: false, form: process.formatar })
   oauth.getUser(req.cookies.token).then(async user=>{

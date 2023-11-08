@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Spyrit</title>
+  <meta name="twitter:title" content="Spyrit: Página de usuário">
+  <meta name="twitter:description" content="Conheça Spyrit: Página do usuário">
+  <meta name="twitter:site" content="https://spyrit.squareweb.app/user/<%- id %>">
+  
+</head>
+<body>
+  <div id="app" style="text-align:center;">
+    
+  </div>
+  <script>
+    let app = document.getElementById("app");
+    let id = "<%- id %>";
+    (async()=>{
+      try{
+      let ftch = await fetch(`/api/user/${id}`)
+      let { globalName, tag, balFormated, bankFormated, rank, avatar } = await ftch.json()
+      
+      let img = document.createElement("img")
+      img.src = avatar;
+      img.id = `avatar`
+      img.style.borderRadius = "50%"
+      
+      let name = document.createElement("h1")
+      name.innerText = globalName
+      name.id = "name"
+      
+      let tagc = document.createElement("h3")
+      tagc.innerText = tag
+      tagc.id = "tag"
+      
+      let balc = document.createElement("p")
+      balc.innerText = `${balFormated} no saldo`
+      balc.id = "bal"
+      
+      let bankc = document.createElement("p")
+      bankc.innerText = `${bankFormated} no banco`
+      bankc.id = "bank"
+      
+      let rankc = document.createElement("p")
+      rankc.innerText = `Top #${rank} no rank de saldo`
+      rankc.id = "rank"
+      
+      
+      
+      
+      app.style.alignText = "center"
+      app.appendChild(img)
+      app.appendChild(name)
+      app.appendChild(tagc)
+      app.appendChild(balc)
+      app.appendChild(bankc)
+      app.appendChild(document.createElement("br"))
+      app.appendChild(rankc)
+      
+      }catch(e){
+        alert(e)
+      }
+    })();
+  </script>
+</body>
+</html>
