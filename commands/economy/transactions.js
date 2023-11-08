@@ -83,6 +83,8 @@ export default {
       if(!filter) return b;
       if(Number(b.type) === Number(filter)) return b;
       
+    }).sort((a,b)=>{
+      return b.timestamp-a.timestamp
     }).map(n=>{
       let prefix = `<t:${Math.floor(n.timestamp/1000)}:R>`
       let usr = null;
@@ -100,7 +102,39 @@ export default {
       embeds:[
         new EmbedBuilder()
         .setColor("#ffffff")
-        .setDescription(`${usrtransactions.length != 0 ? usrtransactions.slice(usrtransactions.length-10,usrtransactions.length).join("\n") : `Vazia, igual minha carteira`}`)]
+        .setDescription(`${usrtransactions.length != 0 ? usrtransactions.slice(0,10).join("\n") : `Vazia, igual minha carteira`}`)]
+    }).catch(()=>{})
+  },
+  msgrun: async(bot,db,i,args)=>{
+    let trans = db.model("transactions")
+    let user = i.mentions.users.first() || bot.users.cache.get(args[0]) || i.author
+    let filter = null
+    let iud = user.id === i.author.id
+    let usrtransactions = await trans.find({ userid: user.id })
+    usrtransactions=usrtransactions.filter(b=>{
+      if(!filter) return b;
+      if(Number(b.type) === Number(filter)) return b;
+      
+    }).sort((a,b)=>{
+      return b.timestamp-a.timestamp
+    }).map(n=>{
+      let prefix = `<t:${Math.floor(n.timestamp/1000)}:R>`
+      let usr = null;
+      if(n.user2 != "") usr = bot.users.cache.get(n.user2)?.tag
+      let v = types.find(e=>e.id === n.type);
+      let lt = `📤 | ${prefix} ${v.lose.replace("%a",iud ? "você" : user.tag).replace("%v",process.formatar(n.value*-1)).replace("%u",usr)}`
+      let wt = `📥 | ${prefix} ${v.win.replace("%a",iud ? "você" : user.tag).replace("%v",process.formatar(n.value)).replace("%u",usr)}`
+      
+      return n.value > 0 ? wt : lt
+      
+      })
+      let mf = filterchoices.find(b=>b.value === filter)
+    i.reply({
+      content:`${iud ? "Suas ú" : "As ú"}ltimas 10 transações${iud ? "" :` de ${user.tag}`}${filter ? ` com o filtro para apenas ${mf?.name}:` : ':'}`,
+      embeds:[
+        new EmbedBuilder()
+        .setColor("#ffffff")
+        .setDescription(`${usrtransactions.length != 0 ? usrtransactions.slice(0,10).join("\n") : `Vazia, igual minha carteira`}`)]
     }).catch(()=>{})
   }
 }
