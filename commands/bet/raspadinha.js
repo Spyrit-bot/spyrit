@@ -179,7 +179,7 @@ export default {
            winx[5] = true;
            winx[8] = true;
            
-           win+=catswin[res[0][0]]
+           win+=catswin[res[0][2]]
          }
          
          // Vertical
