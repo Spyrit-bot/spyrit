@@ -97,7 +97,7 @@ if(!user2) return i.editReply({ content:`Peça para ${user} usar qualquer comand
  let user = i.mentions.users.first() || bot.users.cache.get(args[0]);
  let val = Number(args[1])
  
- if(isNaN(val) || !user) return i.editReply(`Use ${process.env.prefixo}pay @user <valor>`).catch(()=>{})
+ if(isNaN(val) || !user) return i.reply(`Use ${process.env.prefixo}pay @user <valor>`).catch(()=>{})
  if(user.id === i.author.id) return i.reply({ content: `Não é possivel transferir dinheiro para você mesmo. `}).catch(()=>{})
        if(val <= 0) return i.reply({ content: `Não é possivel fazer transferência com valor menor de 0.`}).catch(()=>{})
        if(val > 70000000) return i.reply({ content: `Não é possivel fazer transferência com um valor maior que 70m.`}).catch(()=>{})
