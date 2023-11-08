@@ -222,7 +222,7 @@ export default {
            
            components: view(true,true)
          }).catch(()=>{})
-         let lc = bot.channels.cache.get(process.env.logs);if(lc){lc.send(`${i.user.globalName || i.user.username}(${i.user.tag}/${i.user.id}) apostou na raspadinha e ${win != 0 ? win > 0 ? `ganhou ${process.formatar(win)}` : `perdeu ${process.formatar(200-win)}` : `não ganhou nada`}.`).catch(()=>{}) }
+         let lc = bot.channels.cache.get(process.env.logs);if(lc){lc.send(`${i.user.globalName || i.user.username}(${i.user.tag}/${i.user.id}) apostou na raspadinha e ${win != 0 ? win > 0 ? `ganhou ${process.formatar(win-200)}` : `perdeu ${process.formatar(200-win)}` : `perdeu ${process.formatar(200)}`}.`).catch(()=>{}) }
    
          
          return
