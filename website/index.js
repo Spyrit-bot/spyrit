@@ -61,9 +61,9 @@ app.get("/api/user/:userID",async(req,res)=>{
     globalName: user.globalName,
     id: user.id,
     tag: user.tag,
-    bal: userdb.economy.bal,
+    bal: +userdb.economy.bal.toFixed(2),
     
-    bank: userdb.economy.bank,
+    bank: +userdb.economy.bank.toFixed(2),
     balFormated: process.formatar(userdb.economy.bal),
     bankFormated: process.formatar(userdb.economy.bank),
     
