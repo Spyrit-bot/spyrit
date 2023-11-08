@@ -40,14 +40,14 @@ app.get("/api/oauth",async(req,res)=>{
 app.get("/user/:userID",async(req,res)=>{
   let id = req.params.userID;
   let user = process.bot.users.cache.get(id);
-  if(!user) return res.redirect("/")
+  //if(!user) return res.redirect("/")
  res.render("user.html",{ id })
 })
 app.get("/api/user/:userID",async(req,res)=>{
   let id = req.params.userID;
   let user = process.bot.users.cache.get(id);
   let userModel = process.db.model("user")
-  if(!user) return res.redirect("/")
+  if(!user) return res.status(404).json({ message: `Usuário inválido` })
  let userdb = await userModel.findOneAndUpdate({ _id: user.id },{},{ upsert: true })
  let users = (await userModel.find({ sim: true })).filter(b=>b.economy.bal != Infinity)
  let rank = -1;

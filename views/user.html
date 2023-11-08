@@ -20,8 +20,12 @@
     (async()=>{
       try{
       let ftch = await fetch(`/api/user/${id}`)
-      let { globalName, tag, balFormated, bankFormated, rank, avatar } = await ftch.json()
-      
+      let { globalName, tag, balFormated, bankFormated, rank, avatar, message } = await ftch.json()
+      if(message) {
+        alert(message)
+        setTimeout(()=>{ location.href = "/" },30)
+        return
+      }
       let img = document.createElement("img")
       img.src = avatar;
       img.id = `avatar`
