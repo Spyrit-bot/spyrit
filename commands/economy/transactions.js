@@ -13,6 +13,44 @@ let filterchoices = [
     {name:"Ganhos por Votar",value:"7"},
     
     ]
+    let types = [
+      {
+        id:1,
+        lose:`%a enviou %v para %u`,
+        win:`%a recebeu %v de %u`
+      },
+      {
+        id:2,
+        lose:"",
+        win:`%a ganhou %v no daily`
+      },
+      {
+        id:3,
+        lose:`%a perdeu %v de %u no cara-ou-coroa`,
+        win:`%a ganhou %v de %u no cara-ou-coroa`
+      },
+      {
+        id:4,
+        lose:`%a perdeu %v na raspadinha`,
+        win:`%a ganhou %v na raspadinha`
+      },
+      {
+        id:5,
+        lose:`%a foi roubado em %v por %u`,
+        win:`%a roubou %v de %u`
+      },
+      {
+        id:6,
+        lose:`%a perdeu %v por uma intervenção administrativa`,
+        win:`%a ganhou %v por uma intervenção administrativa`
+      },
+      {
+        id:7,
+        lose:"",
+        win:`%a recebeu %v por votar em mim`
+      },
+      
+      ]
 export default {
   data: new SlashCommandBuilder()
   .setName("transactions")
@@ -47,36 +85,14 @@ export default {
       
     }).map(n=>{
       let prefix = `<t:${Math.floor(n.timestamp/1000)}:R>`
+      let usr = null;
+      if(n.user2 != "") usr = bot.users.cache.get(n.user2)?.tag
+      let v = types.find(e=>e.id === n.type);
+      let lt = `📤 | ${prefix} ${v.lose.replace("%a",iud ? "você" : user.tag).replace("%v",process.formatar(n.value*-1)).replace("%u",usr)}`
+      let wt = `📥 | ${prefix} ${v.win.replace("%a",iud ? "você" : user.tag).replace("%v",process.formatar(n.value)).replace("%u",usr)}`
       
-      if(n.type == 1){
-        let usr = bot.users.cache.get(n.user2)?.tag
-        if(n.value > 0) return ` 📥 | ${prefix} ${iud ? "você" : user?.tag} recebeu ${process.formatar(n.value)} de ${usr}`
-        return ` 📤 | ${prefix} ${iud ? "você" : user?.tag} enviou ${process.formatar(n.value*-1)} para ${usr}`
-      }
-      if(n.type == 2) return ` 📥 | ${prefix} ${iud ? "você" : user?.tag} ganhou ${process.formatar(n.value)} no daily`
-    
-      if(n.type == 3){
-        let usr = bot.users.cache.get(n.user2)?.tag
-        if(n.value > 0) return ` 📥 | ${prefix} ${iud ? "você" : user?.tag} ganhou ${process.formatar(n.value)} de ${usr} no cara-ou-coroa`
-        return ` 📤 | ${prefix} ${iud ? "você" : user?.tag} perdeu ${process.formatar(n.value*-1)} para ${usr} no cara-ou-coroa`
-      }
-      if(n.type == 4){
-        
-        if(n.value > 0) return ` 📥 | ${prefix} ${iud ? "você" : user?.tag} ganhou ${process.formatar(n.value)} na raspadinha`
-        return ` 📤 | ${prefix} ${iud ? "você" : user?.tag} perdeu ${process.formatar(n.value*-1)} na raspadinha`
-      }
-      if(n.type == 5){
-        let usr = bot.users.cache.get(n.user2)?.tag
-        if(n.value > 0) return ` 📥 | ${prefix} ${iud ? "você" : user?.tag} roubou ${process.formatar(n.value)} de ${usr}.`
-        return ` 📤 | ${prefix} ${iud ? "você" : user?.tag} foi roubado em ${process.formatar(n.value*-1)} por ${usr}.`
-      }
-      if(n.type == 6){
-        
-        if(n.value > 0) return ` 📥 | ${prefix} ${iud ? "você" : user?.tag} ganhou ${process.formatar(n.value)} por uma intervenção administrativa.`
-        return ` 📤 | ${prefix} ${iud ? "você" : user?.tag} perdeu ${process.formatar(n.value*-1)} por uma intervenção administrativa.`
-      }
-      if(n.type == 7) return ` 📥 | ${prefix} ${iud ? "você" : user?.tag} ganhou ${process.formatar(n.value)} por votar em mim`
-    
+      return n.value > 0 ? wt : lt
+      
       })
       let mf = filterchoices.find(b=>b.value === filter)
     i.editReply({
