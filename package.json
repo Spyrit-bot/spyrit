@@ -25,6 +25,7 @@
     "jimp": "^0.3.5",
     "mongodb": "^6.2.0",
     "mongoose": "^7.6.3",
+    "topgg-autoposter": "^2.0.1",
     "wandbox-api-updated": "^1.0.4"
   }
 }

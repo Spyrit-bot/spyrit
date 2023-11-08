@@ -10,6 +10,7 @@ import {Client,
 import fs from 'fs';
 import dotenv from 'dotenv';
 import db from './db.js'
+import { AutoPoster } from "topgg-autoposter"
 import userSchema from './models/user.js'
 import transactionsSchema from './models/transactions.js'
 import guildsSchema from './models/guilds.js'
@@ -21,6 +22,9 @@ import("./website/index.js")
 let bot = new Client({intents:131071})
 process.bot = bot;
 process.db = db;
+if( process.env.beta != "sim") {
+  AutoPoster(process.env.topgg, bot)
+}
 bot.login(process.env.token)
 let cachedvotes = {};
 let cachedvotesm = {};
