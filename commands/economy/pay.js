@@ -88,6 +88,85 @@ if(!user2) return i.editReply({ content:`Peça para ${user} usar qualquer comand
       allowMentions:{parse:[]}
     }).catch(()=>{})
     else i.editReply({ content: `Muito obrigada pelos humildes ${process.formatar(val)} <3`}).catch(()=>{})
-  }
+  },
+  msgrun: async(bot,db,i,args)=>{
+    let bots = process.bots
+    let userModel = db.model("user",userSchema)
+    let transactionsModel = db.model("transactions",transactionsSchema)
+  
+ let user = i.mentions.users.first() || bot.users.cache.get(args[0]);
+ let val = Number(args[1])
+ 
+ if(isNaN(val) || !user) return i.editReply(`Use ${process.env.prefixo}pay @user <valor>`).catch(()=>{})
+ if(user.id === i.author.id) return i.reply({ content: `Não é possivel transferir dinheiro para você mesmo. `}).catch(()=>{})
+       if(val <= 0) return i.reply({ content: `Não é possivel fazer transferência com valor menor de 0.`}).catch(()=>{})
+       if(val > 70000000) return i.reply({ content: `Não é possivel fazer transferência com um valor maior que 70m.`}).catch(()=>{})
+       
+let user1 = await userModel.findOne({ _id: i.author.id });
+ let user2 = await userModel.findOne({ _id: user.id });
+if(!user2) return i.reply({ content:`Peça para ${user.tag} usar qualquer comando meu.`})
+ if(user2?.bot?.blocklist?.ative) return i.reply({
+   content:`Não é possível fazer uma transferência para uma pessoa bloqueada em meu sistema.`
+ }).catch(()=>{})
+ if(val > user1.economy.bal) return i.reply({ content: `Não é possivel fazer transferência com um valor inexistente em sua conta.`}).catch(()=>{})
+      
+      if(user1.economy.daily != process.getdate()) return i.reply({
+        content:`Pegue o /daily antes.`
+      }).catch(()=>{})
+      if(!bots.includes(user.id)){
+      if(user2.economy.daily != process.getdate()) return i.reply({
+        content:`Espere o \`${user.tag}\` pegar o /daily antes.`
+      }).catch(()=>{})
+      }
+      let m = `Já que \`${i.author.tag}\` nem \`${user.tag}\` nem votaram em mim na [Simo's Botlist](<https://bombadeagua.life/bot/1166885109471907840>) adicionei uma taxa de 5%.`
+      let tax = 0.05
+      
+      let vtusr1 = await process.simo.votou(i.author.id)
+     if(user.id != bot.user.id){
+       if(vtusr1){
+        m=`Já que \`${i.author.tag}\` votou em mim na [Simo's Botlist](<https://simo-botlist.vercel.app/bot/1166885109471907840>) de graça diminuí a taxa de 5% para 3%!`
+        tax=0.03
+      }else{
+       let vtusr2 = await process.simo.votou(user.id)
+      if(vtusr2){
+        m=`Já que \`${user.tag}\` votou em mim na [Simo's Botlist](<https://simo-botlist.vercel.app/bot/1166885109471907840>) de graça diminuí a taxa de 5% para 3%!`
+        tax=0.03
+      }
+      }
+     }
+     
+      user1.economy.bal-=val
+      if(!bots.includes(user.id))user2.economy.bal+=val*(1-tax)
+     else user2.economy.bal+=val
+     let tranuser1 = new transactionsModel({
+        userid: i.author.id,
+        type: 1,
+        value:0-val,
+        user2: user.id,
+        timestamp: Date.now()
+      })
+      let tranuser2 = new transactionsModel({
+        userid: user.id,
+        type: 1,
+        value:bots.includes(user.id) ? val : val*(1-tax),
+        user2: i.author.id,
+        timestamp: Date.now()
+      })
+      let lc = bot.channels.cache.get(process.env.logs);if(lc){lc.send(`${user.globalName || user.username}(${user.tag}/${user.id}) ganhou ${process.formatar(val)}(Com taxas: ${process.formatar(val*(1-tax))}) do ${i.author.globalName || i.author.username}(${i.author.tag}/${i.author.id}) por uma transferência.`).catch(()=>{}) }
+   
+      
+      
+      
+      await tranuser1.save()
+      await tranuser2.save()
+      await user1.save()
+      await user2.save()
+    if(user.id != bot.user.id)i.reply({
+      content:`O pagamento foi efetuado com sucesso. \`${user.tag}\` recebeu com sucesso ${process.formatar(val*(1-tax))} de \`${i.user.tag}\`.\n\n${m}`,
+      allowMentions:{parse:[]}
+    }).catch(()=>{})
+    else i.reply({ content: `Muito obrigada pelos humildes ${process.formatar(val)} <3`}).catch(()=>{})
+  },
+  
 }
 

@@ -108,7 +108,10 @@ app.get("/getdaily",async(req,res)=>{
       value: Math.floor(ganho*10)/10,
       timestamp:Date.now()
     })
-    let lc = bot.channels.cache.get(process.env.logs);if(lc){lc.send(`${i.user.globalName || i.user.username}(${i.user.tag}/${i.user.id}) ganhou ${process.formatar(ganho)} por pegar o daily.`).catch(()=>{}) }
+    let i = {
+      user: process.bot.users.cache.get(user.id)
+    }
+    let lc = process.bot.channels.cache.get(process.env.logs);if(lc){lc.send(`${i.user.globalName || i.user.username}(${i.user.tag}/${i.user.id}) ganhou ${process.formatar(ganho)} por pegar o daily.`).catch(()=>{}) }
    
     await transacao.save()
     await usr.save()
