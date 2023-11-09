@@ -72,6 +72,18 @@ process.simo = {
     cachedvotesm[`${gettime()}${usrid}`] = Date.now()+(json.rest_time)
     return (json.can_vote) === false
     },
+  list: async()=>{
+    
+    let ftch = await fetch(`https://bombadeagua.life/api/bots/1166885109471907840/votes`,{
+      headers:{ Authorization: process.env.simo }
+    }).catch(()=>{})
+    
+    if(!ftch) return [];
+    let json = await ftch.json()
+    return json
+    
+    },
+    
     tempovoto: async(usrid)=>{
     if(cachedvotesm[`${gettime()}${usrid}`]) return cachedvotesm[`${gettime()}${usrid}`]
     let ftch = await fetch(`https://bombadeagua.life/api/v1/vote-status/${usrid}`,{
@@ -308,6 +320,17 @@ bot.on("messageCreate",async m=>{
       if(usr) m.react("✅").catch(()=>{})
       else m.react("❌").catch(()=>{})
     }
+    if(args[0] == "vl"){
+      let bots = await process.simo.list()
+      m.reply(`${bots.length != 0 ? bots.sort((a,b)=>{
+        return b.votes-a.votes
+      }).map(y=>{
+        let usr = bot.users.cache.get(y.user)
+        usr=`[${usr?.globalName}](<https://spyrit.squareweb.app/user/${usr?.id}>)`
+        return `${usr} - ${y.votes} voto${y.votes != 1 ? "s" : "" }`
+      }).join("\n") : `Sem votos`}`)
+    }
+    
     if(args[0] === "ban"){
       let args = m.content.split(" ")
     let motivo = args.slice(3).join(" ")
