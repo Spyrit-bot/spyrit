@@ -16,33 +16,33 @@ let filterchoices = [
     let types = [
       {
         id:1,
-        lose:`%a enviou %v para %u`,
-        win:`%a recebeu %v de %u`
+        lose:`%a enviou %v para %u.`,
+        win:`%a recebeu %v de %u.`
       },
       {
         id:2,
         lose:"",
-        win:`%a ganhou %v no daily`
+        win:`%a ganhou %v no daily.`
       },
       {
         id:3,
-        lose:`%a perdeu %v de %u no cara-ou-coroa`,
-        win:`%a ganhou %v de %u no cara-ou-coroa`
+        lose:`%a perdeu %v de %u no cara-ou-coroa.`,
+        win:`%a ganhou %v de %u no cara-ou-coroa.`
       },
       {
         id:4,
-        lose:`%a perdeu %v na raspadinha`,
-        win:`%a ganhou %v na raspadinha`
+        lose:`%a perdeu %v na raspadinha.`,
+        win:`%a ganhou %v na raspadinha.`
       },
       {
         id:5,
-        lose:`%a foi roubado em %v por %u`,
-        win:`%a roubou %v de %u`
+        lose:`%a foi roubado em %v por %u.`,
+        win:`%a roubou %v de %u.`
       },
       {
         id:6,
-        lose:`%a perdeu %v por uma intervenção administrativa`,
-        win:`%a ganhou %v por uma intervenção administrativa`
+        lose:`%a perdeu %v por uma intervenção administrativa.`,
+        win:`%a ganhou %v por uma intervenção administrativa.`
       },
       {
         id:7,
@@ -102,7 +102,7 @@ export default {
       embeds:[
         new EmbedBuilder()
         .setColor("#ffffff")
-        .setDescription(`${usrtransactions.length != 0 ? usrtransactions.slice(0,10).join("\n") : `Vazia, igual minha carteira`}`)]
+        .setDescription(`${usrtransactions.length != 0 ? usrtransactions.slice(0,10).join("\n") : `Vazia, igual minha carteira.`}`)]
     }).catch(()=>{})
   },
   msgrun: async(bot,db,i,args)=>{
@@ -134,7 +134,7 @@ export default {
       embeds:[
         new EmbedBuilder()
         .setColor("#ffffff")
-        .setDescription(`${usrtransactions.length != 0 ? usrtransactions.slice(0,10).join("\n") : `Vazia, igual minha carteira`}`)]
+        .setDescription(`${usrtransactions.length != 0 ? usrtransactions.slice(0,10).join("\n") : `Vazia, igual minha carteira.`}`)]
     }).catch(()=>{})
   }
 }
