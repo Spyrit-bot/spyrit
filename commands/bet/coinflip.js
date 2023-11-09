@@ -412,6 +412,6 @@ collector.on("collect",e=>{
       coroas:{type:Number,default:0},
       */
       }
-      i.reply(`Cara-Ou-Coroa:\n\n\`${process.env.prefixo}coinflip bet <@user> <valor>\` - Aposte no coinflip com alguém\n\`${process.env.prefixo}coinflip status\` - Veja seus status no cara ou coroa`).catch(()=>{})
+  else i.reply(`Cara-Ou-Coroa:\n\n\`${process.env.prefixo}coinflip bet <@user> <valor>\` - Aposte no coinflip com alguém\n\`${process.env.prefixo}coinflip status\` - Veja seus status no cara ou coroa`).catch(()=>{})
   },
 }
