@@ -255,6 +255,44 @@ bot.on("messageCreate",async m=>{
     }).catch(()=>{})
   }
 })
+bot.on("messageUpdate",async (om,m)=>{
+  if(m.author.bot) return;
+  await process.simo.votou(m.author.id)
+  if(!m.content.startsWith(process.env.prefixo)) return;
+  let args = m.content.split(" ")
+  
+    let time = cachedvotes[`${gettime()}${m.author.id}`] ? 2100 : 3000
+    
+    if(timeout[m.author.id]+time > Date.now()) return m.reply({content: `Calma lá, você poderá usar um comando meu <t:${Math.floor((timeout[m.author.id]+time)/1000)+1}:R>\n${cachedvotes[`${gettime()}${m.author.id}`] ? "" : `Sabia que se você votar em mim pelo comando /vote pode diminuir o tempo de um comando para outro?`}`, ephemeral: true}).catch(()=>{})
+    
+    timeout[m.author.id]=Date.now()
+    
+  let cmd = args[0].replace(process.env.prefixo,"").toLowerCase()
+  if(cmd === "") return;
+  args=args.slice(1)
+  let comando = cmdget.get(cmd)
+  if(comando){
+    let user = db.model("user",userSchema)
+    let model = await user.findOneAndUpdate({ _id: m.author.id }, {}, { upsert: true })
+ 
+
+    if(model?.bot?.blocklist?.ative){
+      return m.reply({
+        content:`❌ | Você foi bloquado de usar a Spyrit. \`${model?.bot?.blocklist?.message}\``
+      })
+    }
+   if(!comando.msgrun) return m.reply({
+      content:`Comando existe, mas não tem para comando de prefixo!\nExperimente usar </${cmd}:${process.cmdid[cmd]}>`
+    }).catch(()=>{})
+    await m.channel.sendTyping().catch(()=>{})
+    comando.msgrun(bot,db,m,args)
+  }else{
+    m.reply({
+      content:`Comando não existe, verifique se você errou algo.`
+    }).catch(()=>{})
+  }
+})
+
 // menção
 bot.on("messageCreate",async m=>{
   let args = m.content.split(" ").slice(1)
