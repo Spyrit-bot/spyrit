@@ -49,6 +49,9 @@ app.get("/api/user/:userID",async(req,res)=>{
   let userModel = process.db.model("user")
   if(!user) return res.status(404).json({ message: `Usuário inválido` })
  let userdb = await userModel.findOneAndUpdate({ _id: user.id },{},{ upsert: true })
+ if(!userdb) return res.status(404).json({
+   message:`Esse usuário não usou comandos meus.`
+ })
  let users = (await userModel.find({ sim: true })).filter(b=>b.economy.bal != Infinity)
  let rank = -1;
  users.sort((a,b)=>{
