@@ -42,9 +42,9 @@ let userdb = await userModel.findOneAndUpdate(query, update, options);
   msgrun: async(bot,db,m,args)=>{
     let userModel = db.model("user",userSchema)
      
- let user = m.mentions.users.first() || bot.users.cache.get(args[0]) || bot.users.cache.find(b=>b?.globalName?.startsWith(args[0]) || b?.tag?.startsWith(args[0])) || m.author;
+ let user = m.mentions.users.first() || bot.users.cache.get(args[0]) || bot.users.cache.find(b=>b?.toLowerCase()?.globalName?.includes(args.join(" ")?.toLowerCase()) || b?.toLowerCase()?.tag?.includes(args.join(" ")?.toLowerCase())) || m.author;
 let userdb = await userModel.findOneAndUpdate({ _id: user.id}, {}, {upsert:true});
- 
+ if(!userdb) return m.reply(`Usuário ${user.globalName || user.username}(${user.tag}/${user.id}) não está em meu sistema, peça para ele uaar um comando meu.`).catch(()=>{})
  if(userdb?.bot?.blocklist?.ative) return m.reply({
    content:`Não é possível ver o saldo de uma pessoa bloqueada em meu sistema.`
  }).catch(()=>{})
