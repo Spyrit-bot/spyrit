@@ -42,7 +42,7 @@ export default {
       embeds: [
         new EmbedBuilder()
         .setTitle(ius ? `Seu avatar` : `Avatar de ${usr.tag}`)
-        .setImage(usr.avatarURL({ size: 4096, format: `PNG`}))
+        .setImage(usr.displayAvatarURL({ size: 4096, format: `PNG`}))
         .setFooter({
           text: ius ? `Ainda é seu avatar` : `Ainda é o avatar de ${usr.tag}`
         })
@@ -54,7 +54,7 @@ export default {
             new ButtonBuilder()
             .setStyle(ButtonStyle.Link)
             .setLabel(`Abrir no navegador`)
-            .setURL(usr.avatarURL({ size: 4096, format: `PNG`}))
+            .setURL(usr.displayAvatarURL({ size: 4096, format: `PNG`}))
             )
           ]
     }).catch(()=>{})
