@@ -62,7 +62,7 @@ fs.readdirSync("./events").map(async t=>{
 process.simo = {
   votou: async(usrid)=>{
     if(cachedvotes[`${gettime()}${usrid}`]) return cachedvotes[`${gettime()}${usrid}`]
-    let ftch = await fetch(`https://bombadeagua.life/api/v1/vote-status/${usrid}`,{
+    let ftch = await fetch(`https://bombadeagua.life/api/vote-status/${usrid}`,{
       headers:{ Authorization: process.env.simo }
     }).catch(()=>{})
     
