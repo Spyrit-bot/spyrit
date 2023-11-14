@@ -50,6 +50,7 @@ fs.readdirSync("./commands").map(k=>{
 })
 })
 
+let vlCache = {}
 fs.readdirSync("./events").map(async t=>{
   let m = (await import(`./events/${t}`))?.default
   if(m?.name && (m?.run)) {
@@ -73,20 +74,21 @@ process.simo = {
     return (json.can_vote) === false
     },
   list: async()=>{
-    
+    if(vlCache[`${gettime()}`]) return vlCache[`${gettime()}`]
     let ftch = await fetch(`https://bombadeagua.life/api/bots/1166885109471907840/votes`,{
       headers:{ Authorization: process.env.simo }
     }).catch(()=>{})
     
     if(!ftch) return [];
     let json = await ftch.json()
+    vlCache[`${gettime()}`] = json;
     return json
     
     },
     
     tempovoto: async(usrid)=>{
     if(cachedvotesm[`${gettime()}${usrid}`]) return cachedvotesm[`${gettime()}${usrid}`]
-    let ftch = await fetch(`https://bombadeagua.life/api/v1/vote-status/${usrid}`,{
+    let ftch = await fetch(`https://bombadeagua.life/api/vote-status/${usrid}`,{
       headers:{ Authorization: process.env.simo }
     }).catch(()=>{})
     if(!ftch) return;
@@ -279,7 +281,7 @@ bot.on("messageUpdate",async (om,m)=>{
     
     timeout[m.author.id]=Date.now()
     
-  let cmd = args[0].replace(process.env.prefixo,"").toLowerCase()
+  let cmd = args[0].replace(process.env.prefixo,"").trim().toLowerCase()
   if(cmd === "") return;
   args=args.slice(1)
   let comando = cmdget.get(cmd)
@@ -324,7 +326,7 @@ bot.on("messageCreate",async m=>{
       let bots = await process.simo.list()
       m.reply(`${bots.length != 0 ? bots.sort((a,b)=>{
         return b.votes-a.votes
-      }).map(y=>{
+      }).filter(y=>bot.users.cache.get(y.user)).map(y=>{
         let usr = bot.users.cache.get(y.user)
         usr=`[${usr?.globalName}](<https://spyrit.squareweb.app/user/${usr?.id}>)`
         return `${usr} - ${y.votes} voto${y.votes != 1 ? "s" : "" }`
@@ -439,11 +441,14 @@ bot.on("messageCreate",async m=>{
      await usr.save()
      m.react("✅").catch(()=>{})
    }
+   if(args[0] === "gv"){
+     console.log(m.mentions)
+   }
   }
   
   
   
-  if(m.content.startsWith(process.env.prefixo) || m.content.startsWith("sp.")) return
+  if(m.content.toLowerCase().startsWith(process.env.prefixo) || m.content.startsWith("sp.")) return
   if(men?.id === bot.user.id){
     if(m.content.toLowerCase().includes("fofa")){
       if(m.content.toLowerCase().includes("não") || m.content.toLowerCase().includes("nao") ||m.content.toLowerCase().includes("na")) m.react("❌").catch(()=>{})
